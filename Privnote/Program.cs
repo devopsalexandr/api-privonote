@@ -1,3 +1,4 @@
+using AutoMapper.Extensions.ExpressionMapping;
 using Microsoft.EntityFrameworkCore;
 using Privnote.DAL;
 
@@ -16,6 +17,9 @@ builder.Services.AddDbContext<ApplicationContext>(opt =>
 {
     opt.UseNpgsql(connectionString);
 });
+
+builder.Services.AddAutoMapper(config => config.AddExpressionMapping(), AppDomain.CurrentDomain.GetAssemblies());
+
 
 var app = builder.Build();
 
