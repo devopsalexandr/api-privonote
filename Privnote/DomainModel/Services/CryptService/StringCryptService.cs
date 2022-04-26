@@ -1,11 +1,44 @@
 using System.Security.Cryptography;
 using System.Text;
+using Privnote.DomainModel.Services.CryptService.Exceptions;
 
 namespace Privnote.DomainModel.Services.CryptService;
 
 public class StringCryptService : IStringCryptService
 {
+    private string _password { get; set; }
+    
+    public StringCryptService()
+    {
+    }
+    
+    public StringCryptService(string password)
+    {
+        _password = password ?? throw new ArgumentNullException(nameof(password));
+    }
+    public string Encrypt(string text)
+    {
+        var password = _password ?? throw new NullPasswordException();
+        return EncryptString(text, password);
+    }
+
+    public string Decrypt(string text)
+    {
+        var password = _password ?? throw new NullPasswordException();
+        return DecryptString(text, password);
+    }
+    
     public string Encrypt(string text, string password)
+    {
+        return DecryptString(text, password);
+    }
+
+    public string Decrypt(string text, string password)
+    {
+        return DecryptString(text, password);
+    }
+
+    private string EncryptString(string text, string password)
     {
         byte[] toEncryptedArray = UTF8Encoding.UTF8.GetBytes(text);
 
@@ -31,7 +64,7 @@ public class StringCryptService : IStringCryptService
         return Convert.ToBase64String(resultArray, 0, resultArray.Length);
     }
 
-    public string Decrypt(string text, string password)
+    private string DecryptString(string text, string password)
     {
         byte[] toEncryptArray = Convert.FromBase64String(text);
         MD5CryptoServiceProvider objMD5CryptoService = new MD5CryptoServiceProvider();
