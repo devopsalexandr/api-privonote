@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DomainModel\Managers" />
+      <Folder Include="Contracts\v1\Responses" />
     </ItemGroup>
 
 </Project>

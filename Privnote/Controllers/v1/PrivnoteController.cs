@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Privnote.Contracts.v1;
+using Privnote.Contracts.v1.Requests;
 using Privnote.DomainModel.Services.CryptService;
 
 namespace Privnote.Controllers.v1;
@@ -7,11 +8,10 @@ namespace Privnote.Controllers.v1;
 public class PrivnoteController : ApiController
 {
     [HttpGet(ApiRoutes.Notes.Create)]
-    public string Create()
+    public IActionResult Create(CreateNoteRequest request)
     {
-        var stringCrypt = new StringCryptService();
-        var encryptString = stringCrypt.Encrypt("Hello message test", "123321");
-        
-        return stringCrypt.Decrypt(encryptString, "asdasd");
+       
+
+        return Ok();
     }
 }
