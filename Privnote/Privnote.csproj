@@ -21,7 +21,6 @@
 
     <ItemGroup>
       <Folder Include="DomainModel\Managers" />
-      <Folder Include="DomainModel\Services" />
     </ItemGroup>
 
 </Project>
