@@ -1,6 +1,9 @@
 using AutoMapper.Extensions.ExpressionMapping;
 using Microsoft.EntityFrameworkCore;
 using Privnote.DAL;
+using Privnote.DAL.RepositoriesImpl;
+using Privnote.DomainModel.Managers.NotesManager;
+using Privnote.DomainModel.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,8 @@ builder.Services.AddDbContext<ApplicationContext>(opt =>
 
 builder.Services.AddAutoMapper(config => config.AddExpressionMapping(), AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddTransient<INoteRepository, NoteRepository>();
+builder.Services.AddTransient<INoteManager, NoteManager>();
 
 var app = builder.Build();
 
@@ -30,7 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

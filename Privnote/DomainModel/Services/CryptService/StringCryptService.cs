@@ -48,43 +48,43 @@ public class StringCryptService : IStringCryptService
         //De-allocatinng the memory after doing the Job.
         objMD5CryptoService.Clear();
 
-        var objTripleDESCryptoService = new TripleDESCryptoServiceProvider();
+        var objTripleDesCryptoService = new TripleDESCryptoServiceProvider();
         //Assigning the Security key to the TripleDES Service Provider.
-        objTripleDESCryptoService.Key = securityKeyArray;
+        objTripleDesCryptoService.Key = securityKeyArray;
         //Mode of the Crypto service is Electronic Code Book.
-        objTripleDESCryptoService.Mode = CipherMode.ECB;
+        objTripleDesCryptoService.Mode = CipherMode.ECB;
         //Padding Mode is PKCS7 if there is any extra byte is added.
-        objTripleDESCryptoService.Padding = PaddingMode.PKCS7;
+        objTripleDesCryptoService.Padding = PaddingMode.PKCS7;
 
 
-        var objCrytpoTransform = objTripleDESCryptoService.CreateEncryptor();
+        var objCrytpoTransform = objTripleDesCryptoService.CreateEncryptor();
         //Transform the bytes array to resultArray
         byte[] resultArray = objCrytpoTransform.TransformFinalBlock(toEncryptedArray, 0, toEncryptedArray.Length);
-        objTripleDESCryptoService.Clear();
+        objTripleDesCryptoService.Clear();
         return Convert.ToBase64String(resultArray, 0, resultArray.Length);
     }
 
     private string DecryptString(string text, string password)
     {
         byte[] toEncryptArray = Convert.FromBase64String(text);
-        MD5CryptoServiceProvider objMD5CryptoService = new MD5CryptoServiceProvider();
+        var objMd5CryptoService = new MD5CryptoServiceProvider();
 
         //Gettting the bytes from the Security Key and Passing it to compute the Corresponding Hash Value.
-        byte[] securityKeyArray = objMD5CryptoService.ComputeHash(UTF8Encoding.UTF8.GetBytes(password));
-        objMD5CryptoService.Clear();
+        byte[] securityKeyArray = objMd5CryptoService.ComputeHash(UTF8Encoding.UTF8.GetBytes(password));
+        objMd5CryptoService.Clear();
 
-        var objTripleDESCryptoService = new TripleDESCryptoServiceProvider();
+        var objTripleDesCryptoService = new TripleDESCryptoServiceProvider();
         //Assigning the Security key to the TripleDES Service Provider.
-        objTripleDESCryptoService.Key = securityKeyArray;
+        objTripleDesCryptoService.Key = securityKeyArray;
         //Mode of the Crypto service is Electronic Code Book.
-        objTripleDESCryptoService.Mode = CipherMode.ECB;
+        objTripleDesCryptoService.Mode = CipherMode.ECB;
         //Padding Mode is PKCS7 if there is any extra byte is added.
-        objTripleDESCryptoService.Padding = PaddingMode.PKCS7;
+        objTripleDesCryptoService.Padding = PaddingMode.PKCS7;
 
-        var objCrytpoTransform = objTripleDESCryptoService.CreateDecryptor();
+        var objCrytpoTransform = objTripleDesCryptoService.CreateDecryptor();
         //Transform the bytes array to resultArray
         byte[] resultArray = objCrytpoTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-        objTripleDESCryptoService.Clear();
+        objTripleDesCryptoService.Clear();
 
         //Convert and return the decrypted data/byte into string format.
         return UTF8Encoding.UTF8.GetString(resultArray);

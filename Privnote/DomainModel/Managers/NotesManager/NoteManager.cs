@@ -13,10 +13,10 @@ public class NoteManager : INoteManager
         _noteRepository = noteRepository ?? throw new ArgumentNullException();
     }
 
-    public Task CreateNoteAsync(string text, string password)
+    public Task<Note> CreateNoteAsync(string text, string password)
     {
-        var stringCrypt = new StringCryptService(text);
-        var encryptedString = stringCrypt.Encrypt(password);
+        var stringCrypt = new StringCryptService(password);
+        var encryptedString = stringCrypt.Encrypt(text);
         
         return _noteRepository.CreateAsync(encryptedString);
     }

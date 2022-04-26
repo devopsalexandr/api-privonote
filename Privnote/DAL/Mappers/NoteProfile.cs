@@ -7,6 +7,6 @@ public class NoteProfile : Profile
 {
     public NoteProfile()
     {
-        CreateMap<DomainModel.Models.Note, Note>();
+        CreateMap<Note, DomainModel.Models.Note>();
     }
 }
