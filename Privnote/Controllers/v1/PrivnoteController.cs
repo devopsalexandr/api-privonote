@@ -1,3 +1,4 @@
+using System.Net;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Privnote.Contracts.v1;
@@ -24,7 +25,7 @@ public class PrivnoteController : ApiController
         var note = await _noteManager.GetNoteAsync(id, request.Password);
 
         if (note is null)
-            return NotFound("asdasd");
+            return NotFound(new ApiNotFoundResponse(HttpStatusCode.NotFound, "The note not found"));
 
         return Ok(_mapper.Map<GetNoteResponse>(note));
     }
