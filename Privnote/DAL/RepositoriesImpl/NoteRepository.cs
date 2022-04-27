@@ -17,13 +17,25 @@ public class NoteRepository : INoteRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
-    
+
+    public async Task AddAttempts(Guid id)
+    {
+        var note = _context.Notes.FirstOrDefault(x => x.Id == id);
+
+        if (note is null) return;
+
+        note.ReadAttempts++;
+
+        await _context.SaveChangesAsync();
+    }
+
     public Task<Note?> GetAsync(Guid id)
     {
         return _context.Notes.Select(x => new Note()
         {
             Id = x.Id,
             Text = x.Text,
+            ReadAttempts = x.ReadAttempts,
             CreatedAt = x.CreatedAt
         }).FirstOrDefaultAsync(x => x.Id == id);
     }

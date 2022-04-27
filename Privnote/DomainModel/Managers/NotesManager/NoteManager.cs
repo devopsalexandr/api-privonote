@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using Privnote.DomainModel.Models;
 using Privnote.DomainModel.Repositories;
 using Privnote.DomainModel.Services.CryptService;
@@ -28,11 +29,27 @@ public class NoteManager : INoteManager
         if(note is null) return null;
         
         var stringCrypt = new StringCryptService(password);
-        var decryptedString = stringCrypt.Decrypt(note.Text);
-        note.Text = decryptedString;
 
-        await _noteRepository.DeleteAsync(note.Id);
+        try
+        {
+            var decryptedString = stringCrypt.Decrypt(note.Text);
+            note.Text = decryptedString;
 
-        return note;
+            await _noteRepository.DeleteAsync(note.Id);
+
+            return note;
+        }
+        catch (CryptographicException e)
+        {
+            if (note.ReadAttempts >= 2)
+            {
+                await _noteRepository.DeleteAsync(note.Id);
+                return null;
+            }
+
+            await _noteRepository.AddAttempts(note.Id);
+            return null;
+        }
+
     }
 }

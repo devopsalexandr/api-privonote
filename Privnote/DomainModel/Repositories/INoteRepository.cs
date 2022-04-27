@@ -9,4 +9,6 @@ public interface INoteRepository
     public Task<Note> CreateAsync(string text);
     
     public Task DeleteAsync(Guid id);
+
+    public Task AddAttempts(Guid id);
 }
