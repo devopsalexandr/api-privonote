@@ -6,6 +6,8 @@ public class Note
     
     public string Text { get; set; }
     
+    public int ReadAttempts { get; set; }
+    
     public DateTime CreatedAt { get; set; }
         
 }

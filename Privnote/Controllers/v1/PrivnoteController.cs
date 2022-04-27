@@ -15,10 +15,15 @@ public class PrivnoteController : ApiController
         _noteManager = noteManager ?? throw new ArgumentNullException(nameof(noteManager));
     }
     
-    [HttpGet(ApiRoutes.Notes.Show)]
-    public async Task<IActionResult> Get([FromRoute] Guid id)
+    [HttpPost(ApiRoutes.Notes.Show)]
+    public async Task<IActionResult> Get([FromRoute] Guid id, [FromBody] GetNoteRequest request)
     { 
-        return Ok();
+        var note = await _noteManager.GetNoteAsync(id, request.Password);
+
+        if (note is null)
+            return NotFound();
+        
+        return Ok(note);
     }
 
     [HttpPost(ApiRoutes.Notes.Create)]

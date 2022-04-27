@@ -11,7 +11,5 @@ public static class ApiRoutes
         public const string Create = Base + "/";
             
         public const string Show = Base + "/{Id}";
-            
-        public const string Delete = Base + "/{Id}";
     }
 }

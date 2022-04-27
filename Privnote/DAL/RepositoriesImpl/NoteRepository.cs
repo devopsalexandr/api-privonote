@@ -34,7 +34,8 @@ public class NoteRepository : INoteRepository
         {
             Id = new Guid(),
             Text = text,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
+            ReadAttempts = 0
         };
 
         await _context.Notes.AddAsync(newNote);

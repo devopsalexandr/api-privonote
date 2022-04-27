@@ -17,7 +17,7 @@ public class NoteManager : INoteManager
     {
         var stringCrypt = new StringCryptService(password);
         var encryptedString = stringCrypt.Encrypt(text);
-        
+
         return _noteRepository.CreateAsync(encryptedString);
     }
     
