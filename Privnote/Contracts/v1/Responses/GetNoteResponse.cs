@@ -1,13 +1,10 @@
-namespace Privnote.DomainModel.Models;
+namespace Privnote.Contracts.v1.Responses;
 
-public class Note
+public class GetNoteResponse
 {
     public Guid Id { get; set; }
     
     public string Text { get; set; }
     
-    public int ReadAttempts { get; set; }
-    
     public DateTime CreatedAt { get; set; }
-        
 }
