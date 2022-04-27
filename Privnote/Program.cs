@@ -14,7 +14,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("MySqlConnectionString");
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+var dbHost = Environment.GetEnvironmentVariable("DATABASE_HOST");
+var dbUser = Environment.GetEnvironmentVariable("DATABASE_USER");
+var dbName = Environment.GetEnvironmentVariable("DATABASE_NAME");
+var dbPassword = Environment.GetEnvironmentVariable("DATABASE_PASSWORD");
+var dbPort = Environment.GetEnvironmentVariable("DATABASE_PORT");
+
+var connectionString = environment == "Development" 
+    ? builder.Configuration.GetConnectionString("DbConnectionString") 
+    : $"server={dbHost};port={dbPort};database={dbName};uid={dbUser};password={dbPassword};";
 
 builder.Services.AddDbContext<ApplicationContext>(opt =>
 {
@@ -27,6 +36,9 @@ builder.Services.AddTransient<INoteRepository, NoteRepository>();
 builder.Services.AddTransient<INoteManager, NoteManager>();
 
 var app = builder.Build();
+
+var dbContext = app.Services.GetRequiredService<ApplicationContext>();
+dbContext.Database.Migrate();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

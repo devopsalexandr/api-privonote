@@ -1,0 +1,26 @@
+version: '3.0'
+
+services:
+  postgres:
+    container_name: postgres-service
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "privnote"
+      POSTGRES_USER: "privnote"
+      POSTGRES_PASSWORD: "password"
+#    ports:
+#      - "5432:5432"
+  backend-privnote:
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_HOST: "postgres-service"
+      DATABASE_USER: "privnote"
+      DATABASE_NAME: "privnote"
+      DATABASE_PASSWORD: "password"
+    build:
+      context: .
+      dockerfile: Privnote/Dockerfile
+    ports:
+      - "8082:80"
