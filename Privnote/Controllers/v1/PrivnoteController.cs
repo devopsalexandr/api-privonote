@@ -24,7 +24,7 @@ public class PrivnoteController : ApiController
         var note = await _noteManager.GetNoteAsync(id, request.Password);
 
         if (note is null)
-            return NotFound();
+            return NotFound("asdasd");
 
         return Ok(_mapper.Map<GetNoteResponse>(note));
     }
